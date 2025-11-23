@@ -6,7 +6,7 @@ import math
 class Conv2dZ2P4(torch.nn.Module):
     # convolution de Z2 vers P4 donc d'une image classique à une feature map structuré ( avec 4 orientations )
     def __init__(self, in_channels, out_channels, kernel_size, g_type="p4",  
-                 dilation=1, groups=1, bias=False, device="cpu", dtype=None, *args, **kwargs):
+                 dilation=1, groups=1, bias=False, device="cuda", dtype=None, *args, **kwargs):
         super().__init__()
         
         w = torch.empty(out_channels, in_channels, kernel_size, kernel_size) # classique pour une conv normale
@@ -75,7 +75,7 @@ def g_rot4(x, k, reverse=False):
 
 class Conv2dP4P4(torch.nn.Module):
     # convolution de P4 vers P4 donc d'une feature map strucutrée à une feature map structurée
-    def __init__(self, in_channels, out_channels, kernel_size, g_type="p4", bias=False, device="cpu", *args, **kwargs):
+    def __init__(self, in_channels, out_channels, kernel_size, g_type="p4", bias=False, device="cuda", *args, **kwargs):
         # in_channels : nb_canaux ( feature map avec orientation)
         super().__init__()
         self.out_channels = out_channels

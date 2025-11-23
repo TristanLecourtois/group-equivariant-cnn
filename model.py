@@ -66,6 +66,3 @@ class ResNetGPN4(nn.Module):
         x = x.view(x.size(0), -1)
         return self.fc(x)
 
-device = "cpu"
-model = ResNetGPN4(device=device).to(device)
-print(model)
