@@ -27,6 +27,7 @@ class ResBlock(nn.Module):
             identity = self.res_conv(identity)
         return self.relu(y + identity)
 
+
 # ResNet G-CNN P4
 class ResNetGPN4(nn.Module):
     def __init__(self, structure=[(64,1), (128,2), (256,2)], input_dim=(3,32,32), device="cuda"):
@@ -45,14 +46,9 @@ class ResNetGPN4(nn.Module):
             in_ch = out_ch
 
         # couche fully connected
-        sample_data = torch.randn(1, *input_dim).to(device)
-        out = self.forward_conv(sample_data)
-        fc_input_dim = reduce(lambda x,y: x*y, out.shape[1:])
-        self.fc = nn.Sequential(
-            nn.Linear(fc_input_dim, 1000),
-            nn.ReLU(),
-            nn.Linear(1000, 10)
-        )
+        # fixer dynamiquement au premier forward
+        self.fc = None
+        self.input_dim = input_dim
 
     def forward_conv(self, x):
         x = self.init_conv(x)
@@ -64,5 +60,15 @@ class ResNetGPN4(nn.Module):
     def forward(self, x):
         x = self.forward_conv(x)
         x = x.view(x.size(0), -1)
+
+        # crée FC dynamiquement au premier forward si nécessaire
+        if self.fc is None:
+            fc_input_dim = x.size(1)
+            self.fc = nn.Sequential(
+                nn.Linear(fc_input_dim, 1000),
+                nn.ReLU(),
+                nn.Linear(1000, 10)
+            ).to(self.device)
+
         return self.fc(x)
 
