@@ -1,0 +1,11 @@
+GrouPy/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+data/
+cifar10/
+*.pt  
+*.pth 
