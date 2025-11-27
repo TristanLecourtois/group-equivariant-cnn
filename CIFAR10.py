@@ -4,7 +4,7 @@ import torchvision
 import torchvision.transforms as transforms
 import torch.nn.functional as F
 from groupy.gconv.pytorch_gconv.pooling import plane_group_spatial_max_pooling
-from experiments import Net
+from experiments_CIFAR import Net
 import os
 
 model = Net()

@@ -6,6 +6,7 @@ __pycache__/
 *.pyd
 
 data/
+mnist/
 cifar10/
 *.pt  
 *.pth 
